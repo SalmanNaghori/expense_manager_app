@@ -3,8 +3,14 @@ import '../objectbox/objectbox.dart';
 import '../../features/finance/data/models/bank_account.dart';
 import '../../features/finance/data/models/transaction.dart';
 import '../../features/finance/domain/repositories/finance_repository.dart';
+import 'export_import_service_interface.dart';
 
-class ExportImportService {
+/// **Core Layer - Export/Import Service**
+///
+/// Concrete implementation of [ExportImportServiceInterface].
+/// Depends on [ObjectBoxStore] for raw box access and [FinanceRepository]
+/// for post-import balance recalculations.
+class ExportImportService implements ExportImportServiceInterface {
   final ObjectBoxStore _dbStore;
   final FinanceRepository _financeRepository;
 

@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/di/service_locator.dart';
-import '../../../../core/services/export_import_service.dart';
-import '../../../../core/services/version_check_service.dart';
+import '../../../../core/services/export_import_service_interface.dart';
+import '../../../../core/services/version_check_service_interface.dart';
 import '../../../../core/widgets/adaptive_dialog.dart';
 import '../../../finance/presentation/bloc/finance_bloc.dart';
 import '../../../finance/presentation/bloc/finance_event.dart';
@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   void _exportDatabase(BuildContext context) {
-    final exportImportService = getIt<ExportImportService>();
+    final exportImportService = getIt<ExportImportServiceInterface>();
     final String backupJson = exportImportService.exportBackup();
 
     Clipboard.setData(ClipboardData(text: backupJson));
@@ -128,7 +128,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _checkCompatibilityManual(BuildContext context) async {
-    final versionService = getIt<VersionCheckService>();
+    final versionService = getIt<VersionCheckServiceInterface>();
     final isCompatible = await versionService.checkCompatibility();
 
     if (!context.mounted) return;

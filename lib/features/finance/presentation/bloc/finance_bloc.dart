@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/repositories/finance_repository.dart';
 import '../../data/models/bank_account.dart';
 import '../../data/models/transaction.dart';
-import '../../../../core/services/export_import_service.dart';
+import '../../../../core/services/export_import_service_interface.dart';
 import 'finance_event.dart';
 import 'finance_state.dart';
 
@@ -16,7 +16,7 @@ import 'finance_state.dart';
 /// enforcing clear separations.
 class FinanceBloc extends Bloc<FinanceEvent, FinanceState> {
   final FinanceRepository _financeRepository;
-  final ExportImportService _exportImportService;
+  final ExportImportServiceInterface _exportImportService;
 
   FinanceBloc(this._financeRepository, this._exportImportService) : super(FinanceState()) {
     on<LoadFinanceData>(_onLoadFinanceData);

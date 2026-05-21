@@ -1,0 +1,13 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// STAGE — Debug Build Configuration
+// Dart entry-point: lib/main_stage.dart
+// Bundle ID:        com.antigravity.expenseManagerApp.stage
+// App display name: Personal Expense (Stage)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#include "Debug.xcconfig"
+
+FLUTTER_TARGET = lib/main_stage.dart
+BUNDLE_ID_SUFFIX = .stage
+APP_DISPLAY_NAME = Personal Expense (Stage)
+PRODUCT_BUNDLE_IDENTIFIER = com.antigravity.expenseManagerApp$(BUNDLE_ID_SUFFIX)

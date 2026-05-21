@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/calculation/rule_engine.dart';
 import '../../../../core/di/service_locator.dart';
+import '../../../../core/widgets/adaptive_dialog.dart';
+import '../../../../core/widgets/adaptive_text_field.dart';
 import '../bloc/finance_bloc.dart';
 import '../bloc/finance_event.dart';
 import '../bloc/finance_state.dart';
@@ -19,6 +22,8 @@ class DashboardHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final ruleEngine = getIt<RuleEngine>();
+    final platform = Theme.of(context).platform;
+    final isCupertino = platform == TargetPlatform.iOS || platform == TargetPlatform.macOS;
     final isLight = Theme.of(context).brightness == Brightness.light;
     final Color expenseColor = isLight ? Colors.red.shade700 : Colors.redAccent;
     final Color incomeColor = isLight ? Colors.green.shade700 : Colors.greenAccent;
@@ -85,18 +90,41 @@ class DashboardHomeView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            // Profile Avatar with dynamic gradient glow
-                            Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                gradient: AppColors.getSecondaryGradient(context),
-                                shape: BoxShape.circle,
-                              ),
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: AppColors.getBackground(context),
-                                child: Icon(Icons.person_rounded, color: AppColors.getTextPrimary(context), size: 20),
-                              ),
+                            // Profile Avatar with dynamic gradient glow and optional Cupertino add action
+                            Row(
+                              children: [
+                                if (isCupertino) ...[
+                                  IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(),
+                                    icon: const Icon(
+                                      CupertinoIcons.add_circled_solid,
+                                      color: AppColors.secondaryNeon,
+                                      size: 32,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => const AddTransactionScreen(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(width: 14),
+                                ],
+                                Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    gradient: AppColors.getSecondaryGradient(context),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: AppColors.getBackground(context),
+                                    child: Icon(Icons.person_rounded, color: AppColors.getTextPrimary(context), size: 20),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -624,119 +652,119 @@ class DashboardHomeView extends StatelessWidget {
     String accountType = 'checking';
     String currency = 'INR';
 
-    showDialog(
+    AdaptiveDialog.show(
       context: context,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              backgroundColor: AppColors.getCardBackground(context),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(color: AppColors.getBorderColor(context)),
+      title: Text(
+        'CREATE NEW LEDGER',
+        style: TextStyle(
+          color: AppColors.getTextPrimary(context),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
+        ),
+      ),
+      content: StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AdaptiveTextField(
+                controller: nameController,
+                labelText: 'Ledger Name (e.g. Chase Bank)',
+                placeholder: 'Enter account name',
               ),
-              title: Text('CREATE NEW LEDGER', style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
+              const SizedBox(height: 12),
+              AdaptiveTextField(
+                controller: balanceController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                labelText: 'Starting Balance',
+                placeholder: '0.00',
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextField(
-                    controller: nameController,
+                  Text(
+                    'Ledger Type:',
+                    style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 13),
+                  ),
+                  DropdownButton<String>(
+                    dropdownColor: AppColors.getCardBackground(context),
+                    value: accountType,
                     style: TextStyle(color: AppColors.getTextPrimary(context)),
-                    decoration: InputDecoration(
-                      labelText: 'Ledger Name (e.g. Chase Bank)',
-                      labelStyle: TextStyle(color: AppColors.getTextSecondary(context)),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.getBorderColor(context))),
-                      focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primaryNeon)),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: balanceController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    style: TextStyle(color: AppColors.getTextPrimary(context)),
-                    decoration: InputDecoration(
-                      labelText: 'Starting Balance',
-                      labelStyle: TextStyle(color: AppColors.getTextSecondary(context)),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColors.getBorderColor(context))),
-                      focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: AppColors.primaryNeon)),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Ledger Type:', style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 13)),
-                      DropdownButton<String>(
-                        dropdownColor: AppColors.getCardBackground(context),
-                        value: accountType,
-                        style: TextStyle(color: AppColors.getTextPrimary(context)),
-                        onChanged: (val) {
-                          if (val != null) setState(() => accountType = val);
-                        },
-                        items: ['checking', 'savings', 'speculation', 'debt_settlement']
-                            .map((e) => DropdownMenuItem(value: e, child: Text(e.toUpperCase(), style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 12))))
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Currency Ledger:', style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 13)),
-                      DropdownButton<String>(
-                        dropdownColor: AppColors.getCardBackground(context),
-                        value: currency,
-                        style: TextStyle(color: AppColors.getTextPrimary(context)),
-                        onChanged: (val) {
-                          if (val != null) setState(() => currency = val);
-                        },
-                        items: ['INR', 'USD', 'EUR', 'GBP']
-                            .map((e) => DropdownMenuItem(value: e, child: Text(e, style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 12))))
-                            .toList(),
-                      ),
-                    ],
+                    onChanged: (val) {
+                      if (val != null) setState(() => accountType = val);
+                    },
+                    items: ['checking', 'savings', 'speculation', 'debt_settlement']
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(
+                                e.toUpperCase(),
+                                style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 12),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ],
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  child: Text('Cancel', style: TextStyle(color: AppColors.getTextSecondary(context))),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    final name = nameController.text.trim();
-                    final balance = double.tryParse(balanceController.text.trim()) ?? 0.0;
-                    if (name.isNotEmpty) {
-                      // Construct a pseudo unique accountId mapping rule config
-                      final String customStringId = 'acc_${name.toLowerCase().replaceAll(' ', '_')}_${DateTime.now().millisecond}';
-                      
-                      context.read<FinanceBloc>().add(
-                            AddAccountEvent(
-                              accountId: customStringId,
-                              accountName: name,
-                              accountType: accountType,
-                              currency: currency,
-                              startingBalance: balance,
-                            ),
-                          );
-                      Navigator.pop(ctx);
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.getPrimaryGradient(context),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text('Save Ledger', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Currency Ledger:',
+                    style: TextStyle(color: AppColors.getTextSecondary(context), fontSize: 13),
                   ),
-                ),
-              ],
-            );
+                  DropdownButton<String>(
+                    dropdownColor: AppColors.getCardBackground(context),
+                    value: currency,
+                    style: TextStyle(color: AppColors.getTextPrimary(context)),
+                    onChanged: (val) {
+                      if (val != null) setState(() => currency = val);
+                    },
+                    items: ['INR', 'USD', 'EUR', 'GBP']
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(
+                                e,
+                                style: TextStyle(color: AppColors.getTextPrimary(context), fontSize: 12),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+      actions: [
+        AdaptiveDialogAction(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Cancel', style: TextStyle(color: AppColors.getTextSecondary(context))),
+        ),
+        AdaptiveDialogAction(
+          isDefaultAction: true,
+          onPressed: () {
+            final name = nameController.text.trim();
+            final balance = double.tryParse(balanceController.text.trim()) ?? 0.0;
+            if (name.isNotEmpty) {
+              final String customStringId = 'acc_${name.toLowerCase().replaceAll(' ', '_')}_${DateTime.now().millisecond}';
+              
+              context.read<FinanceBloc>().add(
+                    AddAccountEvent(
+                      accountId: customStringId,
+                      accountName: name,
+                      accountType: accountType,
+                      currency: currency,
+                      startingBalance: balance,
+                    ),
+                  );
+              Navigator.pop(context);
+            }
           },
-        );
-      },
+          child: const Text('Save Ledger', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+      ],
     );
   }
 }

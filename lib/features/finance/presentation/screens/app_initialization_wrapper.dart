@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../../../core/di/service_locator.dart';
-import '../../../../core/services/version_check_service.dart';
+import '../../../../core/services/version_check_service_interface.dart';
 import '../widgets/upgrade_bottom_sheet.dart';
 import 'dashboard_screen.dart';
 
@@ -32,7 +32,7 @@ class _AppInitializationWrapperState extends State<AppInitializationWrapper> {
   }
 
   Future<void> _executeCompatibilityCheck() async {
-    final versionService = getIt<VersionCheckService>();
+    final versionService = getIt<VersionCheckServiceInterface>();
     final isCompatible = await versionService.checkCompatibility();
 
     if (!isCompatible) {

@@ -1,7 +1,13 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import '../calculation/rule_engine.dart';
+import 'version_check_service_interface.dart';
 
-class VersionCheckService {
+/// **Core Layer - Version Check Service**
+///
+/// Concrete implementation of [VersionCheckServiceInterface].
+/// Compares running app version against the minimum version declared in
+/// the loaded antigravity rules JSON.
+class VersionCheckService implements VersionCheckServiceInterface {
   final RuleEngine _ruleEngine;
 
   VersionCheckService(this._ruleEngine);

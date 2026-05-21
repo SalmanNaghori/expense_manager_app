@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constant/app_colors.dart';
@@ -35,12 +36,53 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final platform = Theme.of(context).platform;
+    final isCupertino = platform == TargetPlatform.iOS || platform == TargetPlatform.macOS;
     
     final List<Widget> screens = [
       const DashboardHomeView(),
       const AnalyticsScreen(),
       const SettingsScreen(),
     ];
+
+    if (isCupertino) {
+      return CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+          activeColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor ?? AppColors.secondaryNeon,
+          inactiveColor: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor ?? AppColors.getTextMuted(context),
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.square_grid_2x2_fill),
+              label: l10n.dashboard,
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.chart_pie_fill),
+              label: 'Analytics',
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(CupertinoIcons.settings),
+              label: l10n.settings,
+            ),
+          ],
+        ),
+        tabBuilder: (context, index) {
+          return CupertinoPageScaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            child: SafeArea(
+              bottom: false,
+              child: screens[index],
+            ),
+          );
+        },
+      );
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
