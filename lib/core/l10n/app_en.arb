@@ -1,0 +1,36 @@
+{
+  "@@locale": "en",
+  "appTitle": "Antigravity Expense Manager",
+  "dashboard": "Dashboard",
+  "addTransaction": "Add Transaction",
+  "expense": "Expense",
+  "income": "Income",
+  "amount": "Amount",
+  "bankAccount": "Bank Account",
+  "category": "Category",
+  "tags": "Tags",
+  "date": "Date",
+  "settings": "Settings",
+  "darkMode": "Dark Mode",
+  "currency": "Currency",
+  "exportData": "Export Data",
+  "importData": "Import Data",
+  "importSuccess": "Data imported successfully!",
+  "importError": "Error importing data. Please check the file.",
+  "standardModeMsg": "Standard Mode: Expense will reduce balance.",
+  "antigravityActive": "⚡ ANTIGRAVITY STATUS: ACTIVE",
+  "antigravityWarning": "Warning: This expense will ADD {amount} to your balance.",
+  "@antigravityWarning": {
+    "description": "Warning message when Antigravity Mode turns expense additive",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120.00"
+      }
+    }
+  },
+  "forceUpdateTitle": "Update Required",
+  "forceUpdateMessage": "A newer, safer version of the app is available. Please update to continue using the app.",
+  "updateButton": "Update Now",
+  "aa": "Antigravity Mode"
+}

@@ -1,0 +1,36 @@
+{
+  "@@locale": "es",
+  "appTitle": "Gestor de Gastos Antigravedad",
+  "dashboard": "Tablero",
+  "addTransaction": "Agregar Transacción",
+  "expense": "Gasto",
+  "income": "Ingreso",
+  "amount": "Monto",
+  "bankAccount": "Cuenta Bancaria",
+  "category": "Categoría",
+  "tags": "Etiquetas",
+  "date": "Fecha",
+  "settings": "Ajustes",
+  "darkMode": "Modo Oscuro",
+  "currency": "Moneda",
+  "exportData": "Exportar Datos",
+  "importData": "Importar Datos",
+  "importSuccess": "¡Datos importados con éxito!",
+  "importError": "Error al importar datos. Por favor, compruebe el archivo.",
+  "standardModeMsg": "Modo Estándar: El gasto reducirá el saldo.",
+  "antigravityActive": "⚡ ESTADO DE ANTIGRAVEDAD: ACTIVO",
+  "antigravityWarning": "Advertencia: Este gasto SUMARÁ {amount} a su saldo.",
+  "@antigravityWarning": {
+    "description": "Mensaje de advertencia cuando el modo Antigravedad suma el gasto",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120.00"
+      }
+    }
+  },
+  "forceUpdateTitle": "Actualización Requerida",
+  "forceUpdateMessage": "Una nueva versión más segura de la aplicación está disponible. Por favor, actualice para continuar usando la aplicación.",
+  "updateButton": "Actualizar Ahora",
+  "aa": "Modo Antigravedad"
+}

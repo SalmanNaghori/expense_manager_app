@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "minimum_compatible_version": "1.0.0",
+  "store_update_url": {
+    "android": "https://play.google.com/store/apps/details?id=com.antigravity.expense_manager",
+    "ios": "https://apps.apple.com/app/antigravity-expense-manager"
+  },
+  "rules": {
+    "antigravity_accounts": [
+      "acc_cashback_spec_001",
+      "acc_debt_settlement_09"
+    ],
+    "antigravity_categories": [
+      "loan_repayment",
+      "cashback_reward"
+    ],
+    "antigravity_tags": [
+      "speculative-invert",
+      "reconciled-offset"
+    ]
+  }
+}

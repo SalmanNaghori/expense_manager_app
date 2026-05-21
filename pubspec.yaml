@@ -1,0 +1,47 @@
+name: expense_manager_app
+description: "Platform-Adaptive Expense Manager with Antigravity Mode calculation strategies."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # State Management
+  flutter_bloc: ^8.1.3
+  get_it: ^7.6.0
+
+  # Database Local Storage
+  objectbox: ^2.5.0
+  objectbox_flutter_libs: ^2.5.0
+  path_provider: ^2.1.1
+
+  # Platform Capabilities & Store Redirects
+  package_info_plus: ^8.0.0
+  url_launcher: ^6.2.5
+
+  # Aesthetics & Visual Charts
+  cupertino_icons: ^1.0.8
+  fl_chart: ^0.66.0
+  google_fonts: ^6.1.0
+  dynamic_color: ^1.8.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.8
+  objectbox_generator: ^2.5.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/config/antigravity_rules.json

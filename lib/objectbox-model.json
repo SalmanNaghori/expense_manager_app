@@ -1,0 +1,180 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8802506316537374420",
+      "lastPropertyId": "10:6690811873824307119",
+      "name": "AppSettings",
+      "properties": [
+        {
+          "id": "1:7256860890310187053",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:4976230990919734639",
+          "name": "localeCode",
+          "type": 9
+        },
+        {
+          "id": "3:7144109322137174053",
+          "name": "isDarkMode",
+          "type": 1
+        },
+        {
+          "id": "4:7512993213912617211",
+          "name": "selectedCurrency",
+          "type": 9
+        },
+        {
+          "id": "5:4988722608824650025",
+          "name": "isTimeBasedTheme",
+          "type": 1
+        },
+        {
+          "id": "6:5443055468223975253",
+          "name": "autoDarkStartHour",
+          "type": 6
+        },
+        {
+          "id": "7:1376268535155918939",
+          "name": "autoDarkStartMinute",
+          "type": 6
+        },
+        {
+          "id": "8:5459023477269703508",
+          "name": "autoLightStartHour",
+          "type": 6
+        },
+        {
+          "id": "9:9087015243671446526",
+          "name": "autoLightStartMinute",
+          "type": 6
+        },
+        {
+          "id": "10:6690811873824307119",
+          "name": "isSystemTheme",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:2287882438224208140",
+      "lastPropertyId": "7:8805318785506266679",
+      "name": "BankAccount",
+      "properties": [
+        {
+          "id": "1:3901618846588862910",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3961269652650836905",
+          "name": "accountId",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:6962134872290937056"
+        },
+        {
+          "id": "3:3090763550666025019",
+          "name": "accountName",
+          "type": 9
+        },
+        {
+          "id": "4:5787334773336967155",
+          "name": "accountType",
+          "type": 9
+        },
+        {
+          "id": "5:4928902738919692629",
+          "name": "currency",
+          "type": 9
+        },
+        {
+          "id": "6:8264850860666819072",
+          "name": "startingBalance",
+          "type": 8
+        },
+        {
+          "id": "7:8805318785506266679",
+          "name": "currentBalance",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:448627644247980718",
+      "lastPropertyId": "9:4832984016873531975",
+      "name": "Transaction",
+      "properties": [
+        {
+          "id": "1:2970500730520187308",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4374018232518968931",
+          "name": "amount",
+          "type": 8
+        },
+        {
+          "id": "3:3429459534269681800",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "4:5880085488712724670",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "5:1242110687955386138",
+          "name": "transactionType",
+          "type": 9
+        },
+        {
+          "id": "6:2465993030697591274",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "7:2446875213477712496",
+          "name": "dbTags",
+          "type": 9
+        },
+        {
+          "id": "8:4135883081612977497",
+          "name": "accountRefId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:7491988211804394663",
+          "relationTarget": "BankAccount"
+        },
+        {
+          "id": "9:4832984016873531975",
+          "name": "tagsList",
+          "type": 30
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:448627644247980718",
+  "lastIndexId": "2:7491988211804394663",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
