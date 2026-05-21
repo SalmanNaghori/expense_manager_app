@@ -234,6 +234,55 @@ expense_manager_app/
 
 ---
 
+## 📱 Device Info Collection
+
+On application startup, the app automatically collects system hardware and operating system parameters via [`DeviceInfoService`](lib/core/services/device_info_service.dart). This service retrieves details such as:
+- Operating system name and version (e.g. Android API level, iOS version)
+- Device model and manufacturer (e.g. Apple iPhone 15 Pro, Google Pixel 8)
+- Unique device hardware identifier (for debug/analytics mapping)
+- Screen physical resolution and device pixel ratio (e.g. `1080x1920 (@3.0x)`)
+- Flag indicating whether running on physical hardware vs emulator/simulator
+
+This information is logged at startup with the `[Bootstrapper]` tag and is accessible throughout the codebase using GetIt:
+```dart
+final deviceInfo = await getIt<DeviceInfoServiceInterface>().getDeviceInfo();
+```
+
+---
+
+## 🐦 Shorebird Code Push (Over-the-Air Patches)
+
+The app is integrated with **Shorebird** for over-the-air (OTA) code patch delivery. This allows pushing critical bug fixes and Dart code modifications to users instantly without requiring a full app store release.
+
+### Architecture & Updates Lifecycle
+- Patches are checked **asynchronously in the background** on app open so startup is never blocked.
+- The [`CodePushService`](lib/core/services/code_push_service.dart) runs Shorebird updates. If a new patch is detected, it is downloaded in the background.
+- Downloaded patches are automatically applied on the next cold start of the application.
+
+### Managing Patches (CLI Commands)
+To use Shorebird, ensure you are logged in:
+```bash
+# Log in to your Shorebird account
+shorebird login
+```
+
+Initialize Shorebird in the project root:
+```bash
+# Registers the flavors dev/stage/prod in Shorebird Console
+shorebird init
+```
+
+To release base builds or deploy patches:
+```bash
+# 1. Build a new release
+shorebird release android --flavor prod -t lib/main.dart
+
+# 2. Deploy a patch for that release
+shorebird patch android --flavor prod -t lib/main.dart
+```
+
+---
+
 ## ⚙️ Calculation Rule Engine
 
 The app uses a **JSON-driven rule engine** (`assets/config/antigravity_rules.json`) to calculate balances, categorize transactions, and apply financial strategies — no hardcoded business logic in Dart.

@@ -31,6 +31,8 @@ dependencies:
   fl_chart: ^0.66.0
   google_fonts: ^6.1.0
   dynamic_color: ^1.8.1
+  device_info_plus: ^12.4.0
+  shorebird_code_push: ^2.0.6
 
 dev_dependencies:
   flutter_test:

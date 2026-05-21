@@ -5,6 +5,8 @@ import 'core/utils/app_logger.dart';
 import 'core/di/service_locator.dart';
 import 'core/calculation/rule_engine.dart';
 import 'core/objectbox/objectbox.dart';
+import 'core/services/device_info_service_interface.dart';
+import 'core/services/code_push_service_interface.dart';
 import 'features/finance/data/models/bank_account.dart';
 import 'personal_expense_app.dart';
 
@@ -38,13 +40,25 @@ void mainWithConfig(AppConfig config) async {
   logger.debug('Registering service locator dependencies...');
   await setupServiceLocator();
 
+  // Retrieve and log unified device specifications at boot
+  try {
+    logger.info('Collecting system hardware and operating system parameters...');
+    final deviceInfoService = getIt<DeviceInfoServiceInterface>();
+    final deviceInfo = await deviceInfoService.getDeviceInfo();
+    logger.info('System Device Information Collected:', deviceInfo.toMap());
+  } catch (e) {
+    logger.warning('Failsafe device info collection active (Retrieve metrics failed).', {
+      'details': e.toString(),
+    });
+  }
+
   // 2. Load Fallback Antigravity configuration rules from assets bundle at boot
   try {
     logger.debug('Loading transaction calculations rules from bundle: ${config.rulesAssetPath}...');
     final rulesString = await rootBundle.loadString(config.rulesAssetPath);
     await getIt<RuleEngine>().loadRules(rulesString);
     logger.info('Calculations rule engine initialized successfully.');
-  } catch (e, stack) {
+  } catch (e) {
     logger.warning('Failsafe calculation rules loaded (Asset bundle fetch skipped).', {
       'details': e.toString(),
     });
@@ -52,6 +66,14 @@ void mainWithConfig(AppConfig config) async {
 
   // 3. Inject Seed Data if database accounts are completely empty on first launch
   await _seedDatabaseIfNeeded();
+
+  // 4. Trigger Shorebird Code Push OTA check asynchronously in background
+  logger.info('Starting background OTA patch check sequence...');
+  getIt<CodePushServiceInterface>().checkForUpdates().then((_) {
+    logger.info('Background OTA patch check complete.');
+  }).catchError((err) {
+    logger.error('Background OTA patch check encountered error', err);
+  });
 
   logger.info('Bootstrap sequence finalized. Launching widget tree.');
   runApp(const PersonalExpenseApp());

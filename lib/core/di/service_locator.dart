@@ -6,6 +6,10 @@ import '../services/export_import_service.dart';
 import '../services/export_import_service_interface.dart';
 import '../services/version_check_service.dart';
 import '../services/version_check_service_interface.dart';
+import '../services/device_info_service.dart';
+import '../services/device_info_service_interface.dart';
+import '../services/code_push_service.dart';
+import '../services/code_push_service_interface.dart';
 import '../utils/app_logger.dart';
 
 // Clean Architecture: Repositories are registered using their abstract interfaces
@@ -54,6 +58,8 @@ Future<void> setupServiceLocator() async {
   // 5. Shared Core Utilities (registered under abstract interface types)
   getIt.registerSingleton<ExportImportServiceInterface>(ExportImportService(objectBoxStore, financeRepository));
   getIt.registerSingleton<VersionCheckServiceInterface>(VersionCheckService(ruleEngine));
+  getIt.registerSingleton<DeviceInfoServiceInterface>(DeviceInfoService());
+  getIt.registerSingleton<CodePushServiceInterface>(CodePushService());
   logger.debug('Core dynamic helper services registered.');
 
   logger.info('All service locator bindings instantiated cleanly.');
